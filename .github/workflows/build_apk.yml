@@ -22,16 +22,21 @@ jobs:
         with:
           channel: 'stable'
 
+      - name: Criar Projeto Android Completo
+        run: flutter create . --org com.concursoweb --project-name concurso_app
+
+      - name: Atualizar compileSdk para 36
+        run: |
+          sed -i 's/compileSdk = .*/compileSdk = 36/' android/app/build.gradle
+          sed -i 's/compileSdkVersion .*/compileSdkVersion 36/' android/app/build.gradle
+          sed -i 's/targetSdk = .*/targetSdk = 36/' android/app/build.gradle
+          sed -i 's/targetSdkVersion .*/targetSdkVersion 36/' android/app/build.gradle
+
       - name: Instalar Dependencias
         run: flutter pub get
 
-      - name: Build APK Release com SDK 36
-        run: flutter build apk --release --no-tree-shake-icons --build-number=1 --extra-gen-snapshot-options=--enable-asserts || true
-        
-      - name: Compilar via Gradle Forçando SDK 36
-        run: |
-          cd android
-          ./gradlew assembleRelease -PcompileSdkVersion=36 -PtargetSdkVersion=36
+      - name: Build APK Release
+        run: flutter build apk --release --no-tree-shake-icons
 
       - name: Salvar APK nos Artefatos
         uses: actions/upload-artifact@v4
