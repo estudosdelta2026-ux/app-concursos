@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Configurar Java 17
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
@@ -22,14 +22,14 @@ jobs:
         with:
           channel: 'stable'
 
-      - name: Criar estrutura nativa Android
-        run: flutter create . --platforms android
+      - name: Criar projeto Android
+        run: flutter create . --org com.concursoweb --project-name concurso_app
 
       - name: Instalar Dependencias
         run: flutter pub get
 
-      - name: Build APK
-        run: flutter build apk --release
+      - name: Build APK Release
+        run: flutter build apk --release --no-tree-shake-icons --android-project-arg android.compileSdkVersion=36
 
       - name: Salvar APK nos Artefatos
         uses: actions/upload-artifact@v4
