@@ -14,13 +14,16 @@ subprojects {
 }
 
 subprojects {
-    afterEvaluate { project ->
-        if (project.hasProperty("android")) {
-            project.android {
-                compileSdkVersion 36
-            }
+    subproject ->
+        subproject.plugins.whenPluginAdded {
+            plugin ->
+                if ("com.android.build.gradle.AppPlugin" == plugin.class.name ||
+                    "com.android.build.gradle.LibraryPlugin" == plugin.class.name) {
+                    project.android {
+                        compileSdkVersion 36
+                    }
+                }
         }
-    }
 }
 
 tasks.register("clean", Delete) {
