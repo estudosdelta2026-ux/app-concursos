@@ -22,14 +22,14 @@ jobs:
         with:
           channel: 'stable'
 
-      - name: Criar projeto Android
+      - name: Criar arquivos base nativos
         run: flutter create . --org com.concursoweb --project-name concurso_app
 
       - name: Instalar Dependencias
         run: flutter pub get
 
       - name: Build APK Release
-        run: flutter build apk --release --no-tree-shake-icons --android-project-arg android.compileSdkVersion=36
+        run: flutter build apk --release --no-tree-shake-icons
 
       - name: Salvar APK nos Artefatos
         uses: actions/upload-artifact@v4
