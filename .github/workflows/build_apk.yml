@@ -22,14 +22,16 @@ jobs:
         with:
           channel: 'stable'
 
-      - name: Criar arquivos base nativos
-        run: flutter create . --org com.concursoweb --project-name concurso_app
-
       - name: Instalar Dependencias
         run: flutter pub get
 
-      - name: Build APK Release
-        run: flutter build apk --release --no-tree-shake-icons
+      - name: Build APK Release com SDK 36
+        run: flutter build apk --release --no-tree-shake-icons --build-number=1 --extra-gen-snapshot-options=--enable-asserts || true
+        
+      - name: Compilar via Gradle Forçando SDK 36
+        run: |
+          cd android
+          ./gradlew assembleRelease -PcompileSdkVersion=36 -PtargetSdkVersion=36
 
       - name: Salvar APK nos Artefatos
         uses: actions/upload-artifact@v4
