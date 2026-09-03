@@ -17,24 +17,10 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Configurar Android SDK 36
-        uses: android-actions/setup-android@v3
-        with:
-          cmdline-tools-version: 8512546
-          packages: 'platforms;android-36 build-tools;36.0.0'
-
       - name: Configurar Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-
-      - name: Gerar estrutura nativa Android
-        run: flutter create . --org com.concursoweb --project-name concurso_app
-
-      - name: Forçar SDK 36 nos arquivos gerados
-        run: |
-          sed -i 's/flutter.compileSdkVersion/36/g' android/app/build.gradle || true
-          sed -i 's/compileSdk = .*/compileSdk = 36/g' android/app/build.gradle || true
 
       - name: Instalar Dependencias
         run: flutter pub get
